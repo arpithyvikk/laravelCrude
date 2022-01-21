@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-use Illuminate\Auth\Events\Registered;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,10 +37,10 @@ Route::group(['middleware' => ['auth', 'userauth']], function () {
     Route::get('/category_trash',[CategoryController::class, 'trash']);
     Route::get('/deleted_category/{id}',[CategoryController::class, 'forchDelete']);
     Route::get('/restore_category/{id}',[CategoryController::class, 'restore']);
-    Route::post('/search',[CategoryController::class, 'search']);
 
     // For Products
     Route::get('/product',[ProductController::class, 'show']);
-    Route::get('product/edit', [])
+    Route::post('/product/search',[CategoryController::class, 'search'])->name('product.search');
+    Route::post('/product/add', [ProductController::class, 'insert'])->name('product.add');
 
 });

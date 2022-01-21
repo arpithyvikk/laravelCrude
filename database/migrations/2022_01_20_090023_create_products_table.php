@@ -15,7 +15,15 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->decimal('price');
+            $table->enum('status',['instock','outstock']);
+            $table->unsignedInteger('quantity')->default(10);
+            $table->string('image')->nullable();
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            $table->integer('user_id');
             $table->timestamps();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
