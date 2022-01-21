@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Auth\Events\Registered;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,14 +24,23 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-// // Route::get('/category',[CategoryController::class, 'insert'])->middleware('userauth');
-// Route::get('/category', function () {
-//     return view('/category');
-// })->middleware('userauth');
+
 
 Route::group(['middleware' => ['auth', 'userauth']], function () {
 
+    // For categories
     Route::get('/category',[CategoryController::class, 'show']);
     Route::post('/category',[CategoryController::class, 'insert']);
+    Route::get('/edit_category/{id}',[CategoryController::class, 'edit'])->name('edit_category');
+    Route::put('/edit_category',[CategoryController::class, 'update']);
+    Route::get('/delete_category/{id}',[CategoryController::class, 'delete'])->name('delete_category');
+    Route::get('/category_trash',[CategoryController::class, 'trash']);
+    Route::get('/deleted_category/{id}',[CategoryController::class, 'forchDelete']);
+    Route::get('/restore_category/{id}',[CategoryController::class, 'restore']);
+    Route::post('/search',[CategoryController::class, 'search']);
+
+    // For Products
+    Route::get('/product',[ProductController::class, 'show']);
+    Route::get('product/edit', [])
 
 });

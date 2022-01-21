@@ -43,6 +43,8 @@
           
           <!-- main section start -->
           @yield('content')
+
+          
           <!-- main section end -->
           
          <!-- footer start -->

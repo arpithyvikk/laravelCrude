@@ -58,8 +58,9 @@
       <div class="collapse" id="ui-basic1">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{ url('/category') }}">Categories (New)</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ url('/category/trash/{id}') }}">Trash Category</a></li>
-        </ul>
+          <li class="nav-item"> <a class="nav-link" href="{{ url('/category_trash') }}">Trash Category</a></li>
+          {{-- <li class="nav-item"> <a class="nav-link" href="{{ url('/edit_category/{id}') }}"> &nbsp; </a></li> --}}
+       </ul>
       </div>
     </li>
 
