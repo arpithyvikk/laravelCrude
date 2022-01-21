@@ -20,6 +20,19 @@ class ProductController extends Controller
 
     }
 
+    public function detail($id)
+    {
+        $product = Product::find($id);
+        if(is_null($product)){
+            return view('product');
+        }
+        else{
+            $products = Product::get();
+            $product = compact('product');
+        }
+        return view('product_detail')->with($product);
+    }
+
     public function insert(Request $request)
     {
 

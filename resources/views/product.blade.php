@@ -74,7 +74,7 @@ Arpit | Products
                                     <a href="{{ url('/product/edit/'.$product->id) }}" title="Edit" class="btn btn-sm btn-warning"><i class="mdi mdi-pencil"></i></a> &nbsp;
                                     <a href="{{ url('/product/trash/'.$product->id) }}" title="Move to trash" class="btn btn-sm btn-primary"><i class="mdi mdi-delete-sweep"></i></a>
                                     {{-- <a href="{{ url('deleted_category/'.$product->id) }}"  onclick="return confirm('Are you sure want to remove this product perminant?')" title="Perminant Remove" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i></a> --}} &nbsp;
-                                    <a href="{{ url('/product/details') }}"  title="Details" class="btn btn-sm btn-info"><i class="mdi mdi-eye"></i></a>
+                                    <a href="{{ url('/product/detail/'.$product->id) }}"  title="Details" class="btn btn-sm btn-info"><i class="mdi mdi-eye"></i></a>
                                 </td>
                             </tr>
                             @endforeach

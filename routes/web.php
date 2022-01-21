@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'userauth']], function () {
 
     // For Products
     Route::get('/product',[ProductController::class, 'show']);
-    Route::post('/product/search',[CategoryController::class, 'search'])->name('product.search');
+    Route::get('/product/detail/{id}',[ProductController::class, 'detail']);
     Route::post('/product/add', [ProductController::class, 'insert'])->name('product.add');
 
 });
