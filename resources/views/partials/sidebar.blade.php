@@ -40,9 +40,9 @@
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{ url('/product/add') }}">Product (New)</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ url('/product') }}">Products Details</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ url('/product/trash/{id}') }}">Trash Products</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('product.create') }}">Product (New)</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('product.index') }}">Products Details</a></li>
+          {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('product.trash/{id}') }}">Trash Products</a></li> --}}
         </ul>
       </div>
     </li>

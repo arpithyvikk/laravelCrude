@@ -39,8 +39,22 @@ Route::group(['middleware' => ['auth', 'userauth']], function () {
     Route::get('/restore_category/{id}',[CategoryController::class, 'restore']);
 
     // For Products
-    Route::get('/product',[ProductController::class, 'show']);
-    Route::get('/product/detail/{id}',[ProductController::class, 'detail']);
-    Route::post('/product/add', [ProductController::class, 'insert'])->name('product.add');
+    // Route::get('/product',[ProductController::class, 'show']);
+    // Route::get('/product/detail/{id}',[ProductController::class, 'detail']);
+    // Route::post('/product/add', [ProductController::class, 'insert'])->name('product.add');
 
 });
+
+
+Route::prefix('product')   
+    ->name('product.')
+    ->controller(ProductController::class)
+    ->group(function () {
+        Route::get('index', 'index')->name('index');
+        Route::get('detail', 'detail')->name('detail');
+        Route::get('create', 'create')->name('create');
+        Route::post('created', 'created')->name('created');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::put('edited', 'edited')->name('edited');
+        Route::delete('delete/{id}', 'delete')->name('delete');
+    });

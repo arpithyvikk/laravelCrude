@@ -70,7 +70,7 @@ Arpit | Trash Categories
                                 <td>{{$category->deleted_at}}</td>
                                 <td>
                                     <a href="{{ url('restore_category/'.$category->id) }}" title="Restore" class="btn btn-sm btn-info"><i class="mdi mdi-pencil"></i></a> &nbsp;
-                                    <a href="{{ url('deleted_category/'.$category->id) }}"  onclick="return confirm('Remove Category Perminant?')" title="Perminant Remove" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i></a>
+                                    <a href="{{ url('deleted_category/'.$category->id) }}"  onclick="return confirm('Are you Sure You Want to Remove `{{$category->category_name}}` Category Perminant?')" title="Perminant Remove" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
                             @endforeach

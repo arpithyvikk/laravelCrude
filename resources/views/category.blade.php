@@ -89,7 +89,7 @@ Arpit | Categories
             <div class="card">
                 <div class="card-body">
                     
-                    <h4 class="card-title">Categories</h4>
+                    <h4 class="card-title">Category Form</h4>
                     <p class="card-description"> add new category </p>
                     <form class="forms-sample" method="POST" action="{{ url('category')}}">
                         @csrf

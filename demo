@@ -1,0 +1,79 @@
+{
+	FOR EMAIL VERIFICATION
+
+
+	STEP 1: in user model change class with imlementation like:
+
+	< class User extends Authenticatable implements MustVerifyEmail > 
+	or add on top 
+	< use Illuminate\Contracts\Auth\MustVerifyEmail >
+
+
+	STEP 2: assign the middlewere to route in web.php like:
+	<
+		Route::get('/deshboard', function (){
+			return view('dashboard');
+		})->middleware(['auth', 'verified'])->name('dashboard');
+	>
+
+
+	STEP 3: in mailtrap open inbox than in intigration select laravel and copy this code and past in .env file like:
+	<
+		MAIL_MAILER=smtp
+		MAIL_HOST=smtp.mailtrap.io
+		MAIL_PORT=2525
+		MAIL_USERNAME=ae2d6c54f66571
+		MAIL_PASSWORD=f751ee5ec9fe58
+		MAIL_ENCRYPTION=tls
+		MAIL_FROM_ADDRESS=laravelcrud@arpit.com
+		MAIL_FROM_NAME="${APP_NAME}"
+	>
+
+
+	STEP 4: register and thann you can see the Email verification is needed compalsary than click to send verification email
+
+
+	STEP 5: Check your Email address you get email for verify address button than you redirecting on dash board and successfully registred.
+
+}
+
+{
+	SOFT DELETE
+
+	STEP 1: add this(use Illuminate\Database\Eloquent\SoftDeletes) in model 
+
+	STEP 2: in model class add  'use SoftDeletes' like :
+		<
+			class Category extends Model
+			{
+				use HasFactory;
+				use SoftDeletes;    
+			}
+		>
+
+	STEP 3: add colunm in table using migration like:
+		<
+			php artisan make:migration add_deleted_at_to_products_table
+		>
+
+	STEP 4: now go to migration and open this (add_deleted_at_to_products_table.php) file and add to both class like:
+			<
+				public function up()
+				{
+					Schema::table('products', function (Blueprint $table) {
+						$table->softDeletes(); //add this line
+					});
+				}
+
+				public function down()
+				{
+					Schema::table('products', function (Blueprint $table) {
+						$table->dropSoftDeletes(); //addd this line
+					});
+				}
+			>
+
+	STEP 5: run migartion using command and check the database colunm is added or not
+
+	STEP 6: withTrashed(); onlyTrashed(); restore(); forceDelete();
+}

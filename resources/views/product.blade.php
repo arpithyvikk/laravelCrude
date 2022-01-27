@@ -61,14 +61,14 @@ Arpit | Products
                                 <td>{{$product->image}}</td>
                                 <td>{{$product->name}}</td>
                                 <td>
-                                   <?php  $status = $product->status ?>
-                                    @if ($status == 'instock')
-                                        <span class="text-success">In Stock</span>
+                                                                      
+                                    @if ($product->status == 'instock')
+                                        <span class="text-success">Instock</span>
                                     @else
-                                        <span class="text-danger">Out Off Stock</span>
+                                        <span class="text-danger">Outstock</span>
                                     @endif
                                 </td>
-                                <td>{{$product->Category->category_name}}</td>
+                                <td>{{$product->name}}</td>
                                 <td>{{$product->user_id}}</td>
                                 <td>
                                     <a href="{{ url('/product/edit/'.$product->id) }}" title="Edit" class="btn btn-sm btn-warning"><i class="mdi mdi-pencil"></i></a> &nbsp;

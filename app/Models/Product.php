@@ -15,8 +15,12 @@ class Product extends Model
 
     protected $primarykey = "id";
 
-    public function Category() 
+    public function categories() { 
+        return $this->belongsToMany(Category::class, 'category_product');  
+    }
+    
+    public function products()
     {
-        return $this->belongsTo('App\Models\Category', 'category_id', 'id')->withTrashed();
+        return $this->belongsToMany('App\Product', 'category_product', 'category_id', 'product_id');
     }
 }

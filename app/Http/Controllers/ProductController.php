@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show(Request $request)
+    public function index(Request $request)
     {
         $search = $request['search'] ?? "";
         if($search != ""){
@@ -15,9 +16,7 @@ class ProductController extends Controller
         else{
             $products = Product::paginate(10);
         }
-        
         return view('product', compact('products','search'));
-
     }
 
     public function detail($id)
@@ -33,23 +32,43 @@ class ProductController extends Controller
         return view('product_detail')->with($product);
     }
 
-    public function insert(Request $request)
+    public function create()
+    {
+        $categories = Category::all();        
+        return view('product_create', compact('categories'));
+    }
+
+    public function created(Request $request)
     {
 
         $validator =  $request->validate([
-            'Product_name' => 'required|unique:categories',
+            'name' => 'required',
+            'quantity' => 'required',
             'status' => 'required',
+            'price' => 'required',
             'user_id' => 'required',
+            'category' => 'required|array|min:1',
+            'category.*' => 'required|integer|exists:categories,id',
         ]);
+    
+        $image = $request->file('img');
+        $imageName = time().'.'.$image->extension();
+        $image->move(public_path('images'),$imageName);
 
         $product = new Product;
-        $product->category_name = $request->category_name;
+        $product->name = $request->name;
+        $product->price = $request->price;
         $product->status = $request->status;
+        $product->quantity = $request->quantity;
+        $product->image = $imageName;
         $product->user_id = $request->user_id;
         $product->save();
 
+        $product->categories()->attach($request->category);
+
         session()->flash('success_message','Product Added..');
-        return redirect('/category');
+        return redirect('product/create');
+       
     }
 
     public function edit($id)
@@ -66,7 +85,7 @@ class ProductController extends Controller
         // return view('Product.edit', compact('categories'));
     }
 
-    public function update(Request $request)
+    public function edited(Request $request)
     {
         $validator =  $request->validate([
             'Product_name' => 'required',
@@ -120,7 +139,7 @@ class ProductController extends Controller
         return redirect('/category_trash');    
     }
 
-    public function forchDelete($id)
+    public function forceDelete($id)
     {
         $product = Product::withTrashed()->find($id);
         if(!is_null($product)){
