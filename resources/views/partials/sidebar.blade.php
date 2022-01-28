@@ -42,7 +42,7 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{ route('product.create') }}">Product (New)</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{ route('product.index') }}">Products Details</a></li>
-          {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('product.trash/{id}') }}">Trash Products</a></li> --}}
+          <li class="nav-item"> <a class="nav-link" href="{{ route('product.trash') }}">Trash Products</a></li>
         </ul>
       </div>
     </li>
@@ -59,7 +59,6 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{ url('/category') }}">Categories (New)</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{ url('/category_trash') }}">Trash Category</a></li>
-          {{-- <li class="nav-item"> <a class="nav-link" href="{{ url('/edit_category/{id}') }}"> &nbsp; </a></li> --}}
        </ul>
       </div>
     </li>

@@ -21,6 +21,6 @@ class Product extends Model
     
     public function products()
     {
-        return $this->belongsToMany('App\Product', 'category_product', 'category_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'category_product');
     }
 }

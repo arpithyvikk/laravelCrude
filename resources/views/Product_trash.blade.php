@@ -1,7 +1,7 @@
 @extends("layouts.master")
 
 @section("title")
-Arpit | Trash Categories
+Arpit | Trash Products
 @endsection
 
 @section("content")
@@ -25,7 +25,7 @@ Arpit | Trash Categories
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Trashed Categories</h4>
+                    <h4 class="card-title">Trashed Products</h4>
                     <div class="row">
                         {{-- <div class="col-"> &nbsp; </div> --}}
                         <div class="col-12">
@@ -46,38 +46,44 @@ Arpit | Trash Categories
                         <thead>
                             <tr>
                             <th>ID</th>
-                            <th>Category Name</th>
+                            <th>Image</th>
+                            <th>Name</th>
                             <th>Status</th>
+                            <th>Category</th>
                             <th>User ID</th>
-                            <th>Date & Time</th>
                             <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
+                            @foreach ($products as $product)
                             <tr>
-                                <td>{{$category->id}}</td>
-                                <td>{{$category->category_name}}</td>
+                                <td>{{$product->id}}</td>
                                 <td>
-                                   <?php  $status = $category->status ?>
-                                    @if ($status == 'active')
-                                        <span class="text-success">Active</span>
+                                        <img src="{{asset('images')}}/{{$product->image}}" alt="" />
+                                </td>
+                                <td>{{$product->name}}</td>
+                                <td>
+                                                                      
+                                    @if ($product->status == 'instock')
+                                        <span class="text-success">Instock</span>
                                     @else
-                                        <span class="text-danger">Inactive</span>
+                                        <span class="text-danger">Outstock</span>
                                     @endif
                                 </td>
-                                <td>{{$category->user_id}}</td>
-                                <td>{{$category->deleted_at}}</td>
                                 <td>
-                                    <a href="{{ url('restore_category/'.$category->id) }}" title="Restore" class="btn btn-sm btn-info"><i class="mdi mdi-sync"></i></a> &nbsp;
-                                    <a href="{{ url('deleted_category/'.$category->id) }}"  onclick="return confirm('Are you Sure You Want to Remove `{{$category->category_name}}` Category Perminant?')" title="Perminant Remove" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i></a>
+                                    {{implode(', ', $product->categories->pluck('category_name')->toArray()) }}
+                                </td>
+                                <td>{{$product->user_id}}</td>
+                                <td>
+                                    <a href="{{ route('product.restore',$product->id) }}" title="Restore" class="btn btn-sm btn-warning"><i class="mdi mdi-sync"></i></a> &nbsp;
+                                    <a href="{{ route('product.force_delete',$product->id) }}" onclick="return confirm('Are you Sure You Want to Remove `{{$product->name}}` Product Perminant?')" title="Perminant Remove" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                         </table>
                         <div class="table-links">
-                            {{ $categories->links() }}
+                            {{ $products->links() }}
                         </div>
                     </div>
                 </div>

@@ -51,10 +51,15 @@ Route::prefix('product')
     ->controller(ProductController::class)
     ->group(function () {
         Route::get('index', 'index')->name('index');
-        Route::get('detail', 'detail')->name('detail');
+        Route::get('detail/{id}', 'detail')->name('detail');
         Route::get('create', 'create')->name('create');
         Route::post('created', 'created')->name('created');
         Route::get('edit/{id}', 'edit')->name('edit');
         Route::put('edited', 'edited')->name('edited');
-        Route::delete('delete/{id}', 'delete')->name('delete');
+        Route::get('delete/{id}', 'delete')->name('delete');
+        Route::get('trash', 'trash')->name('trash');
+        Route::get('restore/{id}', 'restore')->name('restore');
+        Route::get('force_delete/{id}', 'force_delete')->name('force_delete');
+
+
     });

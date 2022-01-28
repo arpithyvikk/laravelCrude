@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -22,16 +23,15 @@ class ProductController extends Controller
     public function detail($id)
     {
         $product = Product::find($id);
+
         if(is_null($product)){
             return view('product');
         }
         else{
-            $products = Product::get();
-            $product = compact('product');
+            return view('product_detail', compact('product'));
         }
-        return view('product_detail')->with($product);
     }
-
+    
     public function create()
     {
         $categories = Category::all();        
@@ -51,9 +51,12 @@ class ProductController extends Controller
             'category.*' => 'required|integer|exists:categories,id',
         ]);
     
+
         $image = $request->file('img');
         $imageName = time().'.'.$image->extension();
         $image->move(public_path('images'),$imageName);
+
+        $id = $request->id;
 
         $product = new Product;
         $product->name = $request->name;
@@ -74,34 +77,55 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+
+        $cat = Category::all();
+
         if(is_null($product)){
-            return view('Product');
+            return redirect('product/index');
         }
         else{
-
-            $product = compact('Product');
-            return view('edit_category')->with($product);
+            return view('product_edit',['product'=>$product, 'categories'=>$cat]);
         }
-        // return view('Product.edit', compact('categories'));
     }
 
     public function edited(Request $request)
     {
+
         $validator =  $request->validate([
-            'Product_name' => 'required',
-            'status' => 'required',
-            'user_id' => 'required',
             'id' => 'required',
+            'name' => 'required',
+            'quantity' => 'required',
+            'status' => 'required',
+            'price' => 'required',
+            'user_id' => 'required',
+            'category' => 'required|array|min:1',
+            'category.*' => 'required|integer|exists:categories,id',
         ]);
-        $id = $request['id'];
+    
+        $image = $request->file('img');
+        $imageName = time().'.'.$image->extension();
+        $image->move(public_path('images'),$imageName);
+
+        $id = $request->id;
         $product = Product::find($id);
-        $product->category_name = $request->category_name;
+        
+        if(!is_null($product)){
+        
+        File::delete(public_path('images/'.$product->image));
+
+        $product->name = $request->name;
+        $product->price = $request->price;
         $product->status = $request->status;
+        $product->quantity = $request->quantity;
+        $product->image = $imageName;
         $product->user_id = $request->user_id;
         $product->save();
 
+        $product->categories()->sync($request->category);
+
         session()->flash('success_message','Product Updated..');
-        return redirect('/category');
+        }
+        return redirect('product/index');
     }
 
     public function delete($id)
@@ -111,7 +135,7 @@ class ProductController extends Controller
             $product->delete();
             session()->flash('success_message','Product Moved to Trash..');
         }
-        return redirect('/category');    
+        return redirect('product/index');    
     }
 
     public function trash(Request $request)
@@ -121,7 +145,6 @@ class ProductController extends Controller
             $products = Product::where(function ($query) use($search) {
                 $query->where('name', 'LIKE', "%$search%")->orWhere('status', 'LIKE', "%$search%")->orWhere('user_id', 'LIKE', "%$search%");
             })->onlyTrashed()->paginate();
-
         }
         else{
             $products = Product::onlyTrashed()->paginate(5);
@@ -136,16 +159,23 @@ class ProductController extends Controller
             $product->restore();
             session()->flash('success_message','Product Restored..');
         }
-        return redirect('/category_trash');    
+        return redirect('product/trash');    
     }
 
-    public function forceDelete($id)
+    public function force_delete($id)
     {
         $product = Product::withTrashed()->find($id);
+        
         if(!is_null($product)){
+
+            File::delete(public_path('images/'.$product->image));
+
+            $product->products()->detach($product->id);
+
             $product->forceDelete();
+
             session()->flash('success_message','Product Removed Perminant..');
         }
-        return redirect('/category_trash');    
+        return redirect('product/trash');    
     }
 }

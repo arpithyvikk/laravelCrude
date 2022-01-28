@@ -1,0 +1,10 @@
+
+1) product/index OR product/trash
+    - productimage modal popup
+    - category name search 
+
+2) slide-bar url active not working propurlly in edit_category.blade.php page or product_trash.blade.php
+
+3) display product image and image filed is not required  old image is also update the product
+
+4)
